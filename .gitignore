@@ -1,0 +1,5 @@
+node_modules/
+android/
+portfolio_data.json
+.DS_Store
+Thumbs.db

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>PIX - Investir en Afrique & BRVM</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="mobile-frame">
+    <!-- TOP STATUS BAR -->
+    <header class="app-header">
+      <div class="user-greeting">
+        <div class="avatar">P</div>
+        <div>
+          <span class="greeting-subtitle">Bienvenue sur</span>
+          <h1 class="app-brand">PIX <span class="badge-kyc">✓ KYC Vérifié</span></h1>
+        </div>
+      </div>
+      <button class="icon-btn" onclick="openDepositModal()" title="Dépôt rapide">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+      </button>
+    </header>
+
+    <!-- MAIN SCROLLABLE CONTENT -->
+    <main class="content-scroll">
+      <!-- PORTFOLIO HERO CARD -->
+      <section class="portfolio-hero">
+        <div class="portfolio-label">Valeur totale du portefeuille</div>
+        <div class="portfolio-value" id="portfolio-total">--- XOF</div>
+        <div class="portfolio-meta">
+          <span class="cash-badge" id="portfolio-cash">Liquidités : --- XOF</span>
+          <span class="gain-badge positive" id="portfolio-gain">+4.2%</span>
+        </div>
+
+        <!-- ASSET ALLOCATION BAR -->
+        <div class="allocation-section">
+          <div class="allocation-bar" id="allocation-bar">
+            <div class="bar-segment stocks" style="width: 50%" title="Actions"></div>
+            <div class="bar-segment bonds" style="width: 20%" title="Obligations"></div>
+            <div class="bar-segment funds" style="width: 15%" title="FCP"></div>
+            <div class="bar-segment cash" style="width: 15%" title="Cash"></div>
+          </div>
+          <div class="allocation-legend">
+            <span class="legend-item"><i class="dot stocks"></i> Actions</span>
+            <span class="legend-item"><i class="dot bonds"></i> Obligations</span>
+            <span class="legend-item"><i class="dot funds"></i> FCP</span>
+            <span class="legend-item"><i class="dot cash"></i> Cash</span>
+          </div>
+        </div>
+
+        <!-- QUICK ACTIONS -->
+        <div class="quick-actions">
+          <button class="action-btn primary" onclick="openDepositModal()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+            Dépôt Mobile Money
+          </button>
+          <button class="action-btn secondary" onclick="switchTab('market')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18M18 9l-5 5-4-4-6 6"/></svg>
+            Marché BRVM
+          </button>
+        </div>
+      </section>
+
+      <!-- TAB 1: MON PORTEFEUILLE (POSITIONS) -->
+      <section id="tab-portfolio" class="tab-view active">
+        <div class="section-header">
+          <h2>Mes Titres Détenus</h2>
+          <span class="badge-count" id="positions-count">0</span>
+        </div>
+        <div class="positions-list" id="positions-container">
+          <div class="loading">Chargement des positions...</div>
+        </div>
+      </section>
+
+      <!-- TAB 2: MARCHÉ BRVM (EXPLORER) -->
+      <section id="tab-market" class="tab-view">
+        <div class="section-header">
+          <h2>Cotations Marché</h2>
+          <span class="live-indicator"><i class="pulse"></i> En direct</span>
+        </div>
+
+        <!-- CATEGORY PILLS -->
+        <div class="pills-scroll">
+          <button class="pill active" onclick="filterMarket('ALL', this)">Tout</button>
+          <button class="pill" onclick="filterMarket('Stocks', this)">Actions BRVM</button>
+          <button class="pill" onclick="filterMarket('Bonds', this)">Obligations</button>
+          <button class="pill" onclick="filterMarket('Mutual Funds', this)">FCP / OPCVM</button>
+          <button class="pill" onclick="filterMarket('Venture', this)">Venture</button>
+        </div>
+
+        <div class="market-list" id="market-container">
+          <div class="loading">Chargement des cours...</div>
+        </div>
+      </section>
+
+      <!-- TAB 3: HISTORIQUE / ACTIVITÉS -->
+      <section id="tab-activity" class="tab-view">
+        <div class="section-header">
+          <h2>Historique des Ordres</h2>
+        </div>
+        <div class="history-list" id="history-container">
+          <div class="loading">Chargement de l'historique...</div>
+        </div>
+      </section>
+
+      <!-- TAB 4: PROFIL & KYC -->
+      <section id="tab-profile" class="tab-view">
+        <div class="profile-card">
+          <div class="profile-avatar">P</div>
+          <h3>Investisseur PIX</h3>
+          <p class="profile-sub">Compte Titres Régional UEMOA</p>
+          <div class="profile-badge verified">✓ Identité Validée (Biométrie Smile ID)</div>
+        </div>
+        <div class="profile-menu">
+          <div class="menu-row">
+            <span>Devise principale</span>
+            <strong>Franc CFA (XOF)</strong>
+          </div>
+          <div class="menu-row">
+            <span>Place de négociation</span>
+            <strong>BRVM (Abidjan)</strong>
+          </div>
+          <div class="menu-row">
+            <span>Sécurité des fonds</span>
+            <strong>Banque Dépositaire Agréée</strong>
+          </div>
+          <div class="menu-row">
+            <span>Paiements supportés</span>
+            <strong>Wave, Orange, MTN, Virement</strong>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- BOTTOM NAVIGATION BAR -->
+    <nav class="bottom-nav">
+      <button class="nav-item active" onclick="switchTab('portfolio', this)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span>Accueil</span>
+      </button>
+      <button class="nav-item" onclick="switchTab('market', this)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+        <span>Marchés</span>
+      </button>
+      <button class="nav-item" onclick="switchTab('activity', this)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span>Ordres</span>
+      </button>
+      <button class="nav-item" onclick="switchTab('profile', this)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>Profil</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- ORDER MODAL (BUY / SELL) -->
+  <div class="modal-backdrop" id="order-modal">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-header">
+        <h3 id="modal-quote-name">Passer un Ordre</h3>
+        <button class="close-btn" onclick="closeOrderModal()">&times;</button>
+      </div>
+      <div class="order-type-toggle">
+        <button class="toggle-btn active" id="btn-buy" onclick="setOrderType('BUY')">Acheter</button>
+        <button class="toggle-btn" id="btn-sell" onclick="setOrderType('SELL')">Vendre</button>
+      </div>
+
+      <div class="order-details-box">
+        <div class="detail-row">
+          <span>Cours actuel</span>
+          <strong id="modal-price">0 XOF</strong>
+        </div>
+        <div class="detail-row">
+          <span>PER (Price/Earnings)</span>
+          <strong id="modal-pe">--</strong>
+        </div>
+        <div class="detail-row">
+          <span>Rendement dividende</span>
+          <strong id="modal-div">--</strong>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="order-quantity">Nombre de titres :</label>
+        <div class="qty-stepper">
+          <button type="button" onclick="changeQty(-1)">-</button>
+          <input type="number" id="order-quantity" value="1" min="1" oninput="updateOrderTotal()">
+          <button type="button" onclick="changeQty(+1)">+</button>
+        </div>
+      </div>
+
+      <div class="order-summary-box">
+        <span>Montant total de l'ordre :</span>
+        <h2 id="order-total-cost">0 XOF</h2>
+      </div>
+
+      <button class="btn-submit" id="btn-submit-order" onclick="submitOrder()">Confirmer l'Ordre</button>
+    </div>
+  </div>
+
+  <!-- DEPOSIT MODAL (MOBILE MONEY) -->
+  <div class="modal-backdrop" id="deposit-modal">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-header">
+        <h3>Dépôt Mobile Money</h3>
+        <button class="close-btn" onclick="closeDepositModal()">&times;</button>
+      </div>
+
+      <div class="payment-providers">
+        <label class="provider-radio active">
+          <input type="radio" name="provider" value="Wave" checked>
+          <span>Wave</span>
+        </label>
+        <label class="provider-radio">
+          <input type="radio" name="provider" value="Orange Money">
+          <span>Orange Money</span>
+        </label>
+        <label class="provider-radio">
+          <input type="radio" name="provider" value="MTN MoMo">
+          <span>MTN MoMo</span>
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label>Montant en Franc CFA (XOF) :</label>
+        <input type="number" id="deposit-amount" placeholder="Ex: 50000" step="1000" min="1000">
+      </div>
+      <div class="form-group">
+        <label>Numéro de téléphone :</label>
+        <input type="tel" id="deposit-phone" placeholder="Ex: 0700000000">
+      </div>
+
+      <button class="btn-submit" onclick="submitDeposit()">Effectuer le Dépôt</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

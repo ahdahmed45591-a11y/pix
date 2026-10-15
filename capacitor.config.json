@@ -1,0 +1,8 @@
+{
+  "appId": "com.pix.finance",
+  "appName": "PIX",
+  "webDir": "www",
+  "android": {
+    "backgroundColor": "#0A0E17"
+  }
+}
